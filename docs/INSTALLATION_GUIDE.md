@@ -2,6 +2,8 @@
 
 ## Installation Guide
 
+**Repository URL:** https://github.com/abubakarali1886-bit/ai-research-knowledge-hub
+
 **Audience:** Developers and system administrators  
 **Verified against:** Current repository configuration and implementation  
 **Document status:** Repository-verified; deployment-specific values are identified explicitly
