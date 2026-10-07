@@ -36,3 +36,7 @@ backend/ai_research_knowledge_hub.db
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Generated documentation artifacts
+docs/
+
