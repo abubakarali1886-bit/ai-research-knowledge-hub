@@ -1,0 +1,52 @@
+services:
+	db:
+		image: postgres:16-alpine
+		environment:
+			POSTGRES_DB: knowledge_hub
+			POSTGRES_USER: postgres
+			POSTGRES_PASSWORD: postgres
+		volumes:
+			- postgres_data:/var/lib/postgresql/data
+		healthcheck:
+			test: ["CMD-SHELL", "pg_isready -U postgres -d knowledge_hub"]
+			interval: 5s
+			timeout: 5s
+			retries: 20
+
+	ollama:
+		image: ollama/ollama:latest
+		volumes:
+			- ollama_data:/root/.ollama
+		ports:
+			- "11434:11434"
+
+	backend:
+		build: ./backend
+		environment:
+			DATABASE_URL: postgresql://postgres:postgres@db:5432/knowledge_hub
+			SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY before starting the stack}
+			OLLAMA_HOST: http://ollama:11434
+			LLM_MODEL: ${LLM_MODEL:-deepseek-r1:1.5b}
+			SUMMARY_LLM_MODEL: ${SUMMARY_LLM_MODEL:-qwen3.5:0.8b}
+		volumes:
+			- ./data:/app/data
+			- ./vectorstore:/app/vectorstore
+		ports:
+			- "8002:8002"
+		depends_on:
+			db:
+				condition: service_healthy
+
+	frontend:
+		build:
+			context: ./frontend
+			args:
+				VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8002/api}
+		ports:
+			- "5173:80"
+		depends_on:
+			- backend
+
+volumes:
+	postgres_data:
+	ollama_data:

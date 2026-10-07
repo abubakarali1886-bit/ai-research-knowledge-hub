@@ -1,0 +1,38 @@
+# Environment files
+.env
+**/.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.venv/
+.venv311/
+backend/venv/
+venv/
+*.egg-info/
+.coverage
+.coverage.*
+htmlcov/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Local app data and generated runtime content
+logs/
+*.log
+vectorstore/
+data/documents/
+data/processed/
+backend/ai_research_knowledge_hub.db
+*.sqlite3
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db
